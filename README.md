@@ -1,8 +1,6 @@
 # Central-Heating-Intergas-Reader
-esp8266 application to reads the status of the Intergas Central Heating
 
-
-* The program can read the the status of a Central heating from Intergas.
+* This program can read the the status of a Central heating from Intergas.
   It has been built for an esp8266.
   The central heating status is sent through MQTT to a central system (MQTT broker).
   
