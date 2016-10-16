@@ -11,7 +11,7 @@ esp8266 application to reads the status of the Intergas Central Heating
 
 * Connect esp8266 to Intergas
 
-  Connect the central heating to the esp8266.
+  To connect the central heating to the esp8266.
   It is best to use an optocoupler to connect the esp8266 to the Intergas.
   E.g. an 4n25 can be used (take two 4n25s to protect both tx and rx).
   Good results were delivered by a 220 Ohm resistor for the input and a 1kOhm resistor in the output.
