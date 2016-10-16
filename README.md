@@ -9,8 +9,9 @@
 
 * Configuration
   The following needs to be configured (see config.h):
-  -- WiFi access point: SSID and password
-  -- MQTT broker server name; username and password authentication is used
+  - WiFi access point: SSID and password
+  - MQTT broker server name; username and password authentication is used
+  - NTP server (pool) name
 
 * Connect esp8266 to Intergas
 
