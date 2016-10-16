@@ -7,6 +7,11 @@
 * Beta version: This version has been tested for several days on a breadboard.
   It has been tested with an Intergas Prestige CW6.
 
+* Configuration
+  The following needs to be configured (see config.h):
+  -- WiFi access point: SSID and password
+  -- MQTT broker server name; username and password authentication is used
+
 * Connect esp8266 to Intergas
 
   To connect the central heating to the esp8266.
@@ -24,11 +29,8 @@
   The intergas has a 4 pin plug with: Vcc, ground, Tx and Rx.
   The intergas is connected through an optocoupler to the esp8266 (2x 4n25)
 
-* Configuration
-  The following needs to be configured (see config.h):
-  -- WiFi access point: SSID and password
-  -- MQTT broker server name; username and password authentication is used
-
 * Dependencies: MQTT
 
 * Openhab: I have connected the esp8266 through MQTT to openhab. Openhab can display the data, save it and create nice graphs.
+
+* Time: the time is synchronised with an NTP server (server name can be configured in config.h). A timer runs how long the program has been running, so you can see if it was restarted unexpectedly.
