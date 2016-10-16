@@ -29,7 +29,11 @@
   The intergas has a 4 pin plug with: Vcc, ground, Tx and Rx.
   The intergas is connected through an optocoupler to the esp8266 (2x 4n25)
 
-* Dependencies: MQTT
+* Dependencies
+  -- MQTT: PubSubClient for communication with MQTT broker
+  -- Timezone, Timelib: for time calculations
+  -- SoftwareSerial: for serial communications (so the intergas serial communication does not interfere with firmware loading and info/debug messages)
+  -- WifiUdp: for communcation for UDP
 
 * Openhab: I have connected the esp8266 through MQTT to openhab. Openhab can display the data, save it and create nice graphs.
 
