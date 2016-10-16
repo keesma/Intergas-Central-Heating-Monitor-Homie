@@ -38,3 +38,5 @@
 * Openhab: I have connected the esp8266 through MQTT to openhab. Openhab can display the data, save it and create nice graphs.
 
 * Time: the time is synchronised with an NTP server (server name can be configured in config.h). A timer runs how long the program has been running, so you can see if it was restarted unexpectedly.
+
+* Power: My esp8266 has a separate 3.3V power supply. The Intergas may supply power but prefer not the experiment with that.
