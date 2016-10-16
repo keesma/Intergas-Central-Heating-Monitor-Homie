@@ -26,3 +26,11 @@ esp8266 application to reads the status of the Intergas Central Heating
   The intergas has a 4 pin plug with: Vcc, ground, Tx and Rx.
   The intergas is connected through an optocoupler to the esp8266 (2x 4n25)
 
+* Configuration
+  The following needs to be configured (see config.h):
+  -- WiFi access point: SSID and password
+  -- MQTT broker server name; username and password authentication is used
+
+* Dependencies: MQTT
+
+* Openhab: I have connected the esp8266 through MQTT to openhab. Openhab can display the data, save it and create nice graphs.
