@@ -25,15 +25,16 @@
   pin 4: Rx
   pin 5: Tx
   pin 12: LED. The LED is on during initialization and while sending data to the Intergas.
+  The communication speed is 9600 baud.
 
   The intergas has a 4 pin plug with: Vcc, ground, Tx and Rx.
-  The intergas is connected through an optocoupler to the esp8266 (2x 4n25)
+  The intergas is connected through an optocoupler to the esp8266 (2x 4n25).
 
 * Dependencies
-  -- MQTT: PubSubClient for communication with MQTT broker
-  -- Timezone, Timelib: for time calculations
-  -- SoftwareSerial: for serial communications (so the intergas serial communication does not interfere with firmware loading and info/debug messages)
-  -- WifiUdp: for communcation for UDP
+  - MQTT: PubSubClient for communication with MQTT broker
+  - Timezone, Timelib: for time calculations
+  - SoftwareSerial: for serial communications (so the intergas serial communication does not interfere with firmware loading and info/debug messages)
+  - WifiUdp: for communcation for UDP
 
 * Openhab: I have connected the esp8266 through MQTT to openhab. Openhab can display the data, save it and create nice graphs.
 
