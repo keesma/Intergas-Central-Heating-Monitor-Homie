@@ -15,12 +15,12 @@
 
 * Connect esp8266 to Intergas
 
+  One of the files is a picture how to connect the optocouplers (and a picture of the prototype).
+
   To connect the central heating to the esp8266.
   It is best to use an optocoupler to connect the esp8266 to the Intergas.
   E.g. an 4n25 can be used (take two 4n25s to protect both tx and rx).
   Good results were delivered by a 220 Ohm resistor for the input and a 1kOhm resistor in the output.
-
-  One of the files is a picture how to connect the optocouplers (and a picture of the prototype).
 
   Default config on the esp8266 is:
   - pin 4: Rx
@@ -41,4 +41,4 @@
 
 * Time: the time is synchronised with an NTP server (server name can be configured in config.h). A timer runs how long the program has been running, so you can see if it was restarted unexpectedly.
 
-* Power: My esp8266 has a separate 3.3V power supply. The Intergas may supply power but prefer not the experiment with that.
+* Power: My esp8266 has a separate 3.3V power supply. The Intergas may supply power but prefer not the experiment with that (it only supplies power to one of the optocouplers).
