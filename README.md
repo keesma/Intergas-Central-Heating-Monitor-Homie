@@ -20,12 +20,12 @@
   E.g. an 4n25 can be used (take two 4n25s to protect both tx and rx).
   Good results were delivered by a 220 Ohm resistor for the input and a 1kOhm resistor in the output.
 
-  [to do: make a small drawing]
+  One of the files is a picture how to connect the optocouplers (and a picture of the prototype).
 
   Default config on the esp8266 is:
-  pin 4: Rx
-  pin 5: Tx
-  pin 12: LED. The LED is on during initialization and while sending data to the Intergas.
+  - pin 4: Rx
+  - pin 5: Tx
+  - pin 12: LED. The LED is on during initialization and while sending data to the Intergas.
   The communication speed is 9600 baud.
 
   The intergas has a 4 pin plug with: Vcc, ground, Tx and Rx.
