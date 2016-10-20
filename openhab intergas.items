@@ -1,0 +1,38 @@
+String  ch_timestamp    "CV datum-tijd [%s]"    <heating>       (TV_Installatie) { mqtt="<[broker1:chig1/timestamp:state:default]" }
+String  ch_uptime       "CV uptime [%s]"        <heating>       (TV_Installatie) { mqtt="<[broker1:chig1/uptime:state:default]" }
+Group   ch_temperatures
+Number  ch_t1   "CV temperatuur 1 [%.1f \xc2\xb0C]"     <heating>       (TV_Installatie, ch_temperatures) { mqtt="<[broker1:chig1/t1:state:default]" }
+Number  ch_t2   "CV temperatuur 2 [%.1f \xc2\xb0C]"     <heating>       (TV_Installatie, ch_temperatures) { mqtt="<[broker1:chig1/t2:state:default]" }
+Number  ch_t3   "CV temperatuur 3 [%.1f \xc2\xb0C]"     <heating>       (TV_Installatie, ch_temperatures) { mqtt="<[broker1:chig1/t3:state:default]" }
+Number  ch_t4   "CV Tboiler (t4) [%.1f \xc2\xb0C]"      <heating>       (TV_Installatie, ch_temperatures) { mqtt="<[broker1:chig1/t4:state:default]" }
+Number  ch_t5   "CV temperatuur 5 [%.1f \xc2\xb0C]"     <heating>       (TV_Installatie) { mqtt="<[broker1:chig1/t5:state:default]" }
+Number  ch_temperature_setpoint "CV temperatuur setpoint [%.1f \xc2\xb0C]"      <heating>       (TV_Installatie) { mqtt="<[broker1:chig1/temperature-setpoint:state:default]" }
+Number  ch_temperature_flow     "CV temperatuur flow [%.1f \xc2\xb0C]"  <heating>       (TV_Installatie) { mqtt="<[broker1:chig1/temperature-flow:state:default]" }
+Number  ch_fan_speed            "CV ventilatorsnelheid [%.0f rpm]"      <heating>       (TV_Installatie) { mqtt="<[broker1:chig1/fan-speed:state:default]" }
+Number  ch_fan_speed_setpoint   "CV ventilatorsnelheid setpoint [%.0f rpm]"     <heating>       (TV_Installatie) { mqtt="<[broker1:chig1/fan-speed-setpoint:state:default]" }
+Number  ch_status_code          "CV statuscode  [0x%x]" <heating>       (TV_Installatie) { mqtt="<[broker1:chig1/status-code:state:default]" }
+Number  ch_display_code         "CV displaycode  [%d]"  <heating>       (TV_Installatie) 
+Number  ch_fault_code           "CV foutcode [%d]"      <heating>       (TV_Installatie) { mqtt="<[broker1:chig1/fault-code:state:default]" }
+String  ch_status_description   "CV status [%s]"  <heating>       (TV_Installatie) { mqtt="<[broker1:chig1/status-description:state:default]" }
+Number  ch_fan_pwm              "CV ventilator PWM [%.1f %%]"   <heating>       (TV_Installatie) { mqtt="<[broker1:chig1/fan-pwm:state:default]" }
+Number  ch_ionisation_current   "CV ionisatiestroom [%.1f mA]"  <heating>       (TV_Installatie) { mqtt="<[broker1:chig1/ionisation-current:state:default]" }
+Number  ch_pressure             "CV druk [%.1f Pa?]"    <heating>       (TV_Installatie) { mqtt="<[broker1:chig1/pressure:state:default]" }
+Number  ch_status_byte1         "CV status byte 1 [0x%02x]"     <heating>       (TV_Installatie) { mqtt="<[broker1:chig1/status-byte1:state:default]" }
+Number  ch_status_byte2         "CV status byte 2 [0x%02x]"     <heating>       (TV_Installatie) { mqtt="<[broker1:chig1/status-byte2:state:default]" }
+Number  ch_gp_switch            "CV GP switch [%s]"     <heating>       (TV_Installatie) 
+Number  ch_tap_switch           "CV Tap switch [%s]"    <heating>       (TV_Installatie) 
+Number  ch_has_pressure_sensor  "CV pressure sensor [%s]"       <heating>       (TV_Installatie) 
+Number  ch_roomtherm            "CV kamerthermostaat [MAP(onoff.map):%s]"       <heating>       (TV_Installatie) 
+Number  ch_pump_running         "CV pomp [MAP(onoff.map):%s]"   <heating>       (TV_Installatie) 
+Number  ch_dwk                  "CV DWK [%s]"   <heating>       (TV_Installatie) 
+Number  ch_alarm_status         "CV alarm status [%s]"  <heating>       (TV_Installatie) 
+Number  ch_cascade_relay        "CV cascade relay [%s]" <heating>       (TV_Installatie) 
+Number  ch_opentherm            "CV opentherm [MAP(onoff.map):%s]"      <heating>       (TV_Installatie) 
+Number  ch_gas_valve            "CV gasklep [MAP(openclose.map):%s]"    <heating>       (TV_Installatie) 
+Number  ch_spark                "CV vonk [MAP(onoff.map):%s]"   <heating>       (TV_Installatie) 
+Number  ch_ionisation_signal    "CV ionisatiesignaal [MAP(onoff.map):%s]"       <heating>       (TV_Installatie) 
+Number  ch_ot_disabled          "CV opentherm [MAP(onoff.map):%s]"      <heating>       (TV_Installatie) 
+Number  ch_has_low_water_pressure  "CV lage waterdruk [%s]"     <heating>       (TV_Installatie) 
+Number  ch_burner_block         "CV branderblok [%s]"   <heating>       (TV_Installatie) 
+Number  ch_grad_flag            "CV grad flag [%s]"     <heating>       (TV_Installatie) 
+String  ch_input_buffer         "CV message (hex) [%s]" <heating>       (TV_Installatie) { mqtt="<[broker1:chig1/ch_input_buffer:state:default]" }
