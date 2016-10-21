@@ -4,8 +4,7 @@
   It has been built for an esp8266.
   The central heating status is sent through MQTT to a central system (MQTT broker).
   
-* Beta version: This version has been tested for several days on a breadboard.
-  It has been tested with an Intergas Prestige CW6.
+* Beta version: This version has been tested for several weeks on a breadboard with an Intergas Prestige CW6.
 
 * Configuration
   The following needs to be configured (see config.h):
@@ -15,7 +14,7 @@
 
 * Connect esp8266 to Intergas
 
-  One of the files is a picture how to connect the optocouplers (and a picture of the prototype).
+  I have included a diagram how to connect the optocouplers (and a picture of the prototype).
 
   To connect the central heating to the esp8266.
   It is best to use an optocoupler to connect the esp8266 to the Intergas.
@@ -29,15 +28,14 @@
   The communication speed is 9600 baud.
 
   The intergas has a 4 pin plug with: Vcc, ground, Tx and Rx.
-  The intergas is connected through an optocoupler to the esp8266 (2x 4n25).
 
 * Dependencies
   - MQTT: PubSubClient for communication with MQTT broker
   - Timezone, Timelib: for time calculations
   - SoftwareSerial: for serial communications (so the intergas serial communication does not interfere with firmware loading and info/debug messages)
-  - WifiUdp: for communcation for UDP
+  - WifiUdp: for communcation for UDP (needed for UTP)
 
-* Openhab: I have connected the esp8266 through MQTT to openhab. Openhab can display the data, save it and create nice graphs.
+* Openhab: I have connected the esp8266 through MQTT to openhab. Openhab can display the data, save it and create nice graphs. The item definitions are included. The rules are required for translating the status bytes to (bit) values.
 
 * Time: the time is synchronised with an NTP server (server name can be configured in config.h). A timer runs how long the program has been running, so you can see if it was restarted unexpectedly.
 
