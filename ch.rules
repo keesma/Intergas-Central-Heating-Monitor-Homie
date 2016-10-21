@@ -1,0 +1,153 @@
+
+import org.openhab.core.library.types.*
+import java.lang.Math
+
+
+rule "Central heating status byte 1"
+when
+        Item  ch_status_byte1 received update
+then
+	var b = ch_status_byte1.state as DecimalType
+	var s = b.toBigDecimal.toBigInteger
+        
+	if (s.testBit(0)) {
+		if (ch_gp_switch.state != 1)
+			ch_gp_switch.postUpdate(1)
+	} else {
+		if (ch_gp_switch.state != 0)
+			ch_gp_switch.postUpdate(0)
+	}
+	if (s.testBit(1)) {
+		if (ch_tap_switch.state != 1)
+			ch_tap_switch.postUpdate(1)
+	} else {
+		if (ch_tap_switch.state != 0)
+			ch_tap_switch.postUpdate(0)
+	}
+	if (s.testBit(2)) {
+		if (ch_roomtherm.state != 1)
+			ch_roomtherm.postUpdate(1)
+	} else {
+		if (ch_roomtherm.state != 0)
+			ch_roomtherm.postUpdate(0)
+	}
+	if (s.testBit(3)) {
+		if (ch_pump_running.state != 1)
+			ch_pump_running.postUpdate(1)
+	} else {
+		if (ch_pump_running.state != 0)
+			ch_pump_running.postUpdate(0)
+	}
+	if (s.testBit(4)) {
+		if (ch_dwk.state != 1)
+			ch_dwk.postUpdate(1)
+	} else {
+		if (ch_dwk.state != 0)
+			ch_dwk.postUpdate(0)
+	}
+	if (s.testBit(5)) {
+		if (ch_alarm_status.state != 1)
+			ch_alarm_status.postUpdate(1)
+	} else {
+		if (ch_alarm_status.state != 0)
+			ch_alarm_status.postUpdate(0)
+	}
+	if (s.testBit(6)) {
+		if (ch_cascade_relay.state != 1)
+			ch_cascade_relay.postUpdate(1)
+	} else {
+		if (ch_cascade_relay.state != 0)
+			ch_cascade_relay.postUpdate(0)
+	}
+	if (s.testBit(7)) {
+		if (ch_opentherm.state != 1)
+			ch_opentherm.postUpdate(1)
+	} else {
+		if (ch_opentherm.state != 0)
+			ch_opentherm.postUpdate(0)
+	}
+
+end
+
+
+rule "Central heating status byte 2"
+when
+        Item  ch_status_byte2 received update
+then
+	var b = ch_status_byte2.state as DecimalType
+	var s = b.toBigDecimal.toBigInteger
+
+	if (s.testBit(0)) {
+		if (ch_gas_valve.state != 1)
+			ch_gas_valve.postUpdate(1)
+	} else {
+		if (ch_gas_valve.state != 0)
+			ch_gas_valve.postUpdate(0)
+	}
+	if (s.testBit(1)) {
+		if (ch_spark.state != 1)
+			ch_spark.postUpdate(1)
+	} else {
+		if (ch_spark.state != 0)
+			ch_spark.postUpdate(0)
+	}
+	if (s.testBit(2)) {
+		if (ch_ionisation_signal.state != 1)
+			ch_ionisation_signal.postUpdate(1)
+	} else {
+		if (ch_ionisation_signal.state != 0)
+			ch_ionisation_signal.postUpdate(0)
+	}
+	if (s.testBit(3)) {
+		if (ch_ot_disabled.state != 1)
+			ch_ot_disabled.postUpdate(1)
+	} else {
+		if (ch_ot_disabled.state != 0)
+			ch_ot_disabled.postUpdate(0)
+	}
+	if (s.testBit(4)) {
+		if (ch_has_low_water_pressure.state != 1)
+			ch_has_low_water_pressure.postUpdate(1)
+	} else {
+		if (ch_has_low_water_pressure.state != 0)
+			ch_has_low_water_pressure.postUpdate(0)
+	}
+	if (s.testBit(5)) {
+		if (ch_has_pressure_sensor.state != 1)
+			ch_has_pressure_sensor.postUpdate(1)
+	} else {
+		if (ch_has_pressure_sensor.state != 0)
+			ch_has_pressure_sensor.postUpdate(0)
+	}
+	if (s.testBit(6)) {
+		if (ch_burner_block.state != 1)
+			ch_burner_block.postUpdate(1)
+	} else {
+		if (ch_burner_block.state != 0)
+			ch_burner_block.postUpdate(0)
+	}
+	if (s.testBit(7)) {
+		if (ch_grad_flag.state != 1)
+			ch_grad_flag.postUpdate(1)
+	} else {
+		if (ch_grad_flag.state != 0)
+			ch_grad_flag.postUpdate(0)
+	}
+
+end
+
+    
+rule "Central heating status"
+when
+        Item  ch_status_code received update
+then
+
+	switch (ch_status_code.state) {
+	case 126: ch_display_code.postUpdate(0)  // 7E
+	case 102: ch_display_code.postUpdate(1)  // 66
+	case 204: ch_display_code.postUpdate(4)  // CC
+	case 231: ch_display_code.postUpdate(5)  // E7
+	}
+
+end
+
