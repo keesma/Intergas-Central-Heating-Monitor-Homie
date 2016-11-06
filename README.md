@@ -4,7 +4,7 @@
   It has been built for an esp8266.
   The central heating status is sent through MQTT to a central system (MQTT broker).
   
-* Beta version: This version has been tested for several weeks on a breadboard with an Intergas Prestige CW6.
+* Pre-release: This version has first been tested for several weeks on a breadboard with an Intergas Prestige CW6. It has run stable for some weeks. 
 
 * Configuration
   The following needs to be configured (see config.h):
@@ -19,7 +19,7 @@
   To connect the central heating to the esp8266.
   It is best to use an optocoupler to connect the esp8266 to the Intergas.
   E.g. an 4n25 can be used (take two 4n25s to protect both tx and rx).
-  Good results were delivered by a 220 Ohm resistor for the input and a 1kOhm resistor in the output.
+  I got good results by using a 220 Ohm resistor for the input and a 1k Ohm resistor in the output.
 
   Default config on the esp8266 is:
   - pin 4: Rx
@@ -37,6 +37,6 @@
 
 * Openhab: I have connected the esp8266 through MQTT to openhab. Openhab can display the data, save it and create nice graphs. The item definitions are included. The rules are required for translating the status bytes to (bit) values.
 
-* Time: the time is synchronised with an NTP server (server name can be configured in config.h). A timer runs how long the program has been running, so you can see if it was restarted unexpectedly.
+* Time: the time is synchronised with an NTP server (server (or pool) name can be configured in config.h). A timer runs how long the program has been running, so you can see if it was restarted unexpectedly.
 
 * Power: My esp8266 has a separate 3.3V power supply. The Intergas may supply power but prefer not the experiment with that (it only supplies power to one of the optocouplers).
