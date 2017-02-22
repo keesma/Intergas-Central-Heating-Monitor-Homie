@@ -34,10 +34,10 @@ This is an update of the previous. The functionality is almost the same but the 
 * Power: My esp8266 has a separate 3.3V power supply. The Intergas may supply power but prefer not the experiment with that (it only supplies power to one of the optocouplers).
 
 * Changes compared to previous version (without Homie)
-- No ntp time synchronisation
-- Status description is no longer create by the firmware (is done in rule in openhab)
-- Two status bytes became one status word
-- Most important status bits are determined in the firmware (opentherm, pump running)
+  - No ntp time synchronisation (uptime is still there)
+  - Status description is no longer create by the firmware (is done in rule in openhab)
+  - Two status bytes became one status word
+  - Most important status bits are determined in the firmware (opentherm, pump running)
 
-Note: not all bits have been extracted from the status word.
+  Note: not all bits have been extracted from the status word.
 
