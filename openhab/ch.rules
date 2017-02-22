@@ -1,7 +1,21 @@
-
-import org.openhab.core.library.types.*
 import java.lang.Math
 
+rule "Central heating description"
+when
+        Item ch_status_code received update
+then
+        switch (ch_status_code.state) {
+        case   0: ch_status_description.postUpdate("CV brandt (opentherm)")
+        case  51: ch_status_description.postUpdate("Warm water")
+        case 102: ch_status_description.postUpdate("CV brandt")
+        case 126: ch_status_description.postUpdate("CV in rust")
+        case 153: ch_status_description.postUpdate("Tapwater nadraaien 1")
+        case 204: ch_status_description.postUpdate("Tapwater nadraaien 2")
+        case 231: ch_status_description.postUpdate("CV Nadraaien")
+        case 240: ch_status_description.postUpdate("Tapwater")
+        default: ch_status_description.postUpdate("Code onbekend: "+ch_status_code.state)
+        }
+end
 
 rule "Central heating status byte 1"
 when
@@ -136,18 +150,32 @@ then
 
 end
 
+rule "Central heating delta t"
+when
+        Item    ch_t1 received update or
+        Item    ch_t2 received update
+then
+        var Number delta
+
+        delta = (ch_t1.state as DecimalType) - (ch_t2.state as DecimalType)
+        ch_delta_t.postUpdate(delta)
+end
+
+
     
 rule "Central heating status"
 when
         Item  ch_status_code received update
 then
 
-	switch (ch_status_code.state) {
-	case 126: ch_display_code.postUpdate(0)  // 7E
-	case 102: ch_display_code.postUpdate(1)  // 66
-	case 204: ch_display_code.postUpdate(4)  // CC
-	case 231: ch_display_code.postUpdate(5)  // E7
-	}
+        switch (ch_status_code.state) {
+        case 102: ch_display_code.postUpdate(1)  // 66
+        case 126: ch_display_code.postUpdate(0)  // 7E
+        case 153: ch_display_code.postUpdate(0)  // 99
+        case 204: ch_display_code.postUpdate(4)  // CC
+        case 231: ch_display_code.postUpdate(5)  // E7
+        case 240: ch_display_code.postUpdate(7)  // F0
+        }
 
 end
 
