@@ -1,18 +1,13 @@
-# Central-Heating-Intergas-Reader
+# Intergas Central Heating Monitor for Homie 2.0
+
+This is an update of the previous. The functionality is almost the same but the source is much more simple because of Homie.
 
 * This program can read the the status of a Central heating from Intergas.
-  It has been built for an esp8266.
-  The central heating status is sent through MQTT to a central system (MQTT broker).
+  It has been built for an esp8266. The central heating status is sent through MQTT to a central system (MQTT broker).
   
-* Pre-release: This version has first been tested for several weeks on a breadboard with an Intergas Prestige CW6. It has run stable for some weeks. 
+* Configuration is done using the configuration mode Homie. No need to add passwords to the code anymore.
 
-* Configuration
-  The following needs to be configured (see config.h):
-  - WiFi access point: SSID and password
-  - MQTT broker server name; username and password authentication is used
-  - NTP server (pool) name
-
-* Connect esp8266 to Intergas
+* Connect esp8266 to Intergas (is the same as previous version)
 
   I have included a diagram how to connect the optocouplers (and a picture of the prototype).
 
@@ -30,13 +25,10 @@
   The intergas has a 4 pin plug with: Vcc, ground, Tx and Rx.
 
 * Dependencies
-  - MQTT: PubSubClient for communication with MQTT broker
-  - Timezone, Timelib: for time calculations
-  - SoftwareSerial: for serial communications (so the intergas serial communication does not interfere with firmware loading and info/debug messages)
-  - WifiUdp: for communcation for UDP (needed for UTP)
-
+  - Homie 2.0 (not officially released)
+  
 * Openhab: I have connected the esp8266 through MQTT to openhab. Openhab can display the data, save it and create nice graphs. The item definitions are included. The rules are required for translating the status bytes to (bit) values.
 
-* Time: the time is synchronised with an NTP server (server (or pool) name can be configured in config.h). A timer runs how long the program has been running, so you can see if it was restarted unexpectedly.
+* Time: the time is no longer synchronised with an NTP server (server (or pool) name can be configured in config.h). Homie has a timer that counts how many seconds it has been running since the last reset.
 
 * Power: My esp8266 has a separate 3.3V power supply. The Intergas may supply power but prefer not the experiment with that (it only supplies power to one of the optocouplers).
