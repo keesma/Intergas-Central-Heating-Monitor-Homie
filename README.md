@@ -38,6 +38,7 @@ This is an update of the previous. The functionality is almost the same but the 
   - Status description is no longer create by the firmware (is done in rule in openhab)
   - Two status bytes became one status word
   - Most important status bits are determined in the firmware (opentherm, pump running)
+  - Two external temperature sensors can be added (flow & return) 
 
   Note: not all bits have been extracted from the status word.
 
