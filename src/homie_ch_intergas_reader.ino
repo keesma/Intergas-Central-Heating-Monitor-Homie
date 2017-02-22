@@ -9,7 +9,6 @@
  * - settings
  *   -devices/<deviceid>/
  *      - scan-period - how often is status read from Intergas (in seconds)
- *      - sync-period - how often time is synchronized (in seconds)
  *      - send-raw-data - determines whether the raw data is send
  * - sensor data
  *   - devices/igchm/...
