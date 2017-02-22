@@ -25,7 +25,7 @@ This is an update of the previous. The functionality is almost the same but the 
   The intergas has a 4 pin plug with: Vcc, ground, Tx and Rx.
 
 * Dependencies
-  - Homie 2.0 (not officially released)
+  - (Homie 2.0)[https://github.com/marvinroger/homie-esp8266] (not officially released)
   
 * Openhab: I have connected the esp8266 through MQTT to openhab. Openhab can display the data, save it and create nice graphs. The item definitions are included. The rules are required for translating the status bytes to (bit) values.
 
