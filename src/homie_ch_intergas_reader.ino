@@ -52,7 +52,7 @@
 #include <SoftwareSerial.h>
 
 #define FW_NAME       "homie-ch"
-#define FW_VERSION    "0.4.36"
+#define FW_VERSION    "0.4.37"
 
 #define DEBUG  0
 
@@ -430,8 +430,8 @@ void setup() {
    simulateCentralHeating.setDefaultValue(false);
 #endif
 //   Homie.enableLogging(true);
-//   Homie.enableBuiltInLedIndicator(false);
 //   Homie.disableResetTrigger();
+   Homie.disableLedFeedback();
 
 //   Homie.getLogger().setLogging(true);
    Homie.setSetupFunction(setupHandler);
