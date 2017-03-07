@@ -5,9 +5,9 @@ This is an update of the previous. The functionality is almost the same but the 
 * This program can read the the status of a Central heating from Intergas.
   It has been built for an esp8266. The central heating status is sent through MQTT to a central system (MQTT broker).
   
-* Configuration is done using the configuration mode Homie. No need to add passwords to the code anymore.
+* Configuration is done using the configuration mode Homie. No need to add wifi password to the code anymore.
 
-* Connect esp8266 to Intergas (is the same as previous version)
+* How to connect the esp8266 to the Intergas (is the same as previous version)
 
   I have included a diagram how to connect the optocouplers (and a picture of the prototype).
 
@@ -25,7 +25,7 @@ This is an update of the previous. The functionality is almost the same but the 
   The intergas has a 4 pin plug with: Vcc, ground, Tx and Rx.
 
 * Dependencies
-  - Homie 2.0: [https://github.com/marvinroger/homie-esp8266] (not officially released)
+  - Homie 2.0: [https://github.com/marvinroger/homie-esp8266] (not yet officially released and working well)
   
 * Openhab: I have connected the esp8266 through MQTT to openhab. Openhab can display the data, save it and create nice graphs. The item definitions are included. The rules are required for translating the status bytes to (bit) values.
 
@@ -33,12 +33,12 @@ This is an update of the previous. The functionality is almost the same but the 
 
 * Power: My esp8266 has a separate 3.3V power supply. The Intergas may supply power but prefer not the experiment with that (it only supplies power to one of the optocouplers).
 
-* Changes compared to previous version (without Homie)
+* Changes compared to previous version (without Homie):
   - No ntp time synchronisation (uptime is still there)
-  - Status description is no longer create by the firmware (is done in rule in openhab)
+  - The status description is no longer created by the firmware (is done in rule in openhab)
   - Two status bytes became one status word
   - Most important status bits are determined in the firmware (opentherm, pump running)
   - Two external temperature sensors can be added (flow & return) 
 
-  Note: not all bits have been extracted from the status word.
+  Note: not all bits have been extracted from the status word to prevent too much communication.
 
