@@ -43,7 +43,7 @@
  * 0.3x 20161230  Converted to Homie v2.0
  * 0.4x 20170103  Added 2 external temperature sensors (flow & return)
  *                Added simulation by other central heating monitor (conditional)
- *
+ * 0,5x 20170227  Changed formatting of status codes. Fixed logging. Changed period temperature sensors reading
  */
 
 #include <Homie.h>
@@ -52,7 +52,7 @@
 #include <SoftwareSerial.h>
 
 #define FW_NAME       "homie-ch"
-#define FW_VERSION    "0.4.37"
+#define FW_VERSION    "0.5.5"
 
 #define DEBUG  0
 
@@ -71,7 +71,7 @@ HomieNode centralHeatingNode("heating","heating");
 HomieSetting<const char *> flowTAddress("Flow sensor address","Flow temperature sensor address");
 HomieSetting<const char *> returnTAddress("Return sensor address","Return temperature sensor address");
 #ifdef INTERGAS_SIMULATE
-HomieSetting<bool> simulateCentralHeating("Simulate Central Heating", "Simulate the central heating by receiving a dummy response (for testing purposes)");
+HomieSetting<bool> simulateCentralHeating("Simulate Central Heating", "Simulate the central heating by receiving a dummy response (for test purposes)");
 #endif
 
 bool messageReceived;
@@ -91,7 +91,7 @@ byte inputBufferSim[] = { 0x65, 0x0c, 0x50, 0x0c, 0x46, 0x0c, 0x77, 0x0a, 0x97, 
 int writeIndex;
 #define PinLED            12
 
-#define ONE_WIRE_BUS    14  // DS18B20 pin
+#define ONE_WIRE_BUS      14  // DS18B20 pin
 OneWire oneWire(ONE_WIRE_BUS);
 DallasTemperature DS18B20(&oneWire);
 DeviceAddress t1Address, t2Address;
@@ -106,6 +106,7 @@ SoftwareSerial intergas(4, 5, false ); // RX, TX, not inverted
 
 long  receiveTimer;
 long  scanPeriod;
+long  tScanPeriod;
 bool  sendRawData;
 
 double  ch_pressure;
@@ -121,6 +122,7 @@ byte toHex(char c) {
       result = c - 'a' + 0x0a;
    } else {
       // Error
+      result = 0;
       Homie.getLogger() << "ERROR: converting character to hex " << c << endl;
    }
    return result;
@@ -169,6 +171,19 @@ void ledOff() {
 }
 
 long lastMsg = 0;
+long lastTMsg = 0;
+
+bool centralHeatingTPeriodHandler(const HomieRange& range, const String& value) {
+  long period;
+  period = value.toInt();
+  if (period > 1) {
+     tScanPeriod = period*1000;  // in milliseconds
+     centralHeatingNode.setProperty("temp-scan-period").send(String(period));
+     return true;
+  } else {
+     return false;
+  }
+}
 
 bool centralHeatingPeriodHandler(const HomieRange& range, const String& value) {
   long period;
@@ -282,7 +297,6 @@ void processStatus() {
       // Retrieve the variables from the message
 
    if (messageReceived) {
-      float  temperature;
       char   scratch[100];
 
       messageReceived = false;
@@ -305,7 +319,7 @@ void processStatus() {
       }
       centralHeatingNode.setProperty("io-current").send(ftoa(scratch, getDouble(inputBuffer[23],  inputBuffer[22]), 0));
       pressureNode.setProperty("pressure").send(ftoa(scratch, ch_pressure, 0));
-      sprintf(scratch, "%u %u",inputBuffer[26], inputBuffer[28]);
+      sprintf(scratch, "%x%x",inputBuffer[26], inputBuffer[28]);
       centralHeatingNode.setProperty("status").send(scratch);
       centralHeatingNode.setProperty("opentherm").send((inputBuffer[26] & 0x80) == 0x80 ? "true" : "false");
 
@@ -316,9 +330,9 @@ void processStatus() {
       } else {
          ch_fault_code = 0;
       }
-      sprintf(scratch, "%u", ch_fault_code);
+      sprintf(scratch, "%x", ch_fault_code);
       centralHeatingNode.setProperty("fault-code").send(scratch);
-      sprintf(scratch, "%u", ch_status_code);
+      sprintf(scratch, "%x", ch_status_code);
       centralHeatingNode.setProperty("status-code").send(scratch);
       centralHeatingNode.setProperty("pump-running").send(((inputBuffer[26] & 0x08) == 0x08 ? "true" : "false"));
       if (sendRawData) {
@@ -329,19 +343,23 @@ void processStatus() {
         }
         centralHeatingNode.setProperty("input-buffer").send(ch_input_buffer);
       }
-
-      DS18B20.requestTemperatures();
-      if (t1Present) {
-        temperature = DS18B20.getTempCByIndex(0);
-        temperatureNode.setProperty(t1Name).send(String(temperature));
-        Homie.getLogger() << "T1: " << temperature << endl;
-      }
-      if (t2Present) {
-        temperature = DS18B20.getTempCByIndex(1);
-        temperatureNode.setProperty(t2Name).send(String(temperature));
-        Homie.getLogger() << "T2: " << temperature << endl;
-      }
 	}
+}
+
+void requestTemperatures() {
+  float  temperature;
+
+  DS18B20.requestTemperatures();
+  if (t1Present) {
+    temperature = DS18B20.getTempCByIndex(0);
+    temperatureNode.setProperty(t1Name).send(String(temperature));
+    Homie.getLogger() << "T1: " << temperature << endl;
+  }
+  if (t2Present) {
+    temperature = DS18B20.getTempCByIndex(1);
+    temperatureNode.setProperty(t2Name).send(String(temperature));
+    Homie.getLogger() << "T2: " << temperature << endl;
+  }
 }
 
 void setupHandler() {
@@ -353,11 +371,9 @@ void setupHandler() {
      Serial.print("Sensor return config: ["); Serial.print(returnTAddress.get()); Serial.println("]");
      if (DS18B20.getAddress(t1Address, 0)) {
         t1Present = true;
-//        Homie.getLogger() << "Temperature sensor 1: ";
-        Serial.print("Temperature sensor 1: ");
+        Homie.getLogger() << "Temperature sensor 1: ";
         addressToString(t1Address, t1AddressString);
-//        Homie.getLogger() << t1AddressString << endl;
-        Serial.println(t1AddressString);;
+        Homie.getLogger() << t1AddressString << endl;
         t = flowTAddress.get();
         if (t != 0) {
           if (!strncmp(t,t1AddressString,23)) {
@@ -390,6 +406,7 @@ void setupHandler() {
    fanNode.setProperty("unit").send("rpm");
    centralHeatingNode.advertise("send-raw-data").settable(centralHeatingRawDataHandler);
    centralHeatingNode.advertise("scan-period").settable(centralHeatingPeriodHandler);
+   centralHeatingNode.advertise("temp-scan-period").settable(centralHeatingTPeriodHandler);
 #ifdef INTERGAS_SIMULATE
    centralHeatingNode.advertise("input-buffer").settable(bufferInputHandler);
 #endif
@@ -398,11 +415,14 @@ void setupHandler() {
 void addressToString(DeviceAddress deviceAddress, char *s) {
   for (uint8_t i = 0; i < 8; i++) {
     // zero pad the address if necessary
-    s[3*i] = c2h(deviceAddress[i] & 0xf00 >> 4);
-    s[3*i + 1] = c2h(deviceAddress[i] & 0x0f);
-    if (i != 7) s[3*i + 2] = ':';
+//    s[3*i] = c2h(deviceAddress[i] & 0xf00 >> 4);
+//    s[3*i + 1] = c2h(deviceAddress[i] & 0x0f);
+//    if (i != 7) s[3*i + 2] = ':';
+    s[2*i] = c2h(deviceAddress[i] & 0xf00 >> 4);
+    s[2*i + 1] = c2h(deviceAddress[i] & 0x0f);
+//    if (i != 7) s[3*i + 2] = ':';
   }
-  s[23] = '\0';
+  s[17] = '\0';
 }
 
 void setup() {
@@ -417,9 +437,11 @@ void setup() {
    messageReceived = false;
    waitingForAnswer = false;
    scanPeriod =  10000;  // milliseconds
+   tScanPeriod = 60000;  // milliseconds
    sendRawData = false;
 
    lastMsg = 0;
+   lastTMsg = 0;
 
    Serial.println(F("\nIntergas Central Heating Monitor " FW_VERSION));
    Serial.println(F(__TIMESTAMP__));
@@ -429,11 +451,8 @@ void setup() {
 #ifdef INTERGAS_SIMULATE
    simulateCentralHeating.setDefaultValue(false);
 #endif
-//   Homie.enableLogging(true);
-//   Homie.disableResetTrigger();
+   //Homie.disableResetTrigger();  To check if it restarts better
    Homie.disableLedFeedback();
-
-//   Homie.getLogger().setLogging(true);
    Homie.setSetupFunction(setupHandler);
    Homie.setLoopFunction(loopHandler);
 
@@ -452,6 +471,10 @@ void loopHandler() {
   if (timeInMillis - lastMsg > scanPeriod) {
      lastMsg = timeInMillis;
      requestStatus();
+  }
+  if (timeInMillis - lastTMsg > tScanPeriod) {
+     lastTMsg = timeInMillis;
+     requestTemperatures();
   }
   readStatus();
   processStatus();
