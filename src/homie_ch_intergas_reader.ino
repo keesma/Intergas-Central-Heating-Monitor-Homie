@@ -12,23 +12,19 @@
  *      - send-raw-data - determines whether the raw data is send
  * - sensor data
  *   - devices/igchm/...
- *     - timestamp
  *     - uptime
  *     - t1, t2, t3, t4, t5
  *     - ch-pressure
  *     - temperature-setting
  *     - temperature-flow
- *     - fan-speed
- *     - fan-speed-set
- *     - fan-pwm
+ *     - fan-speed, fan-speed-set, fan-pwm
  *     - ionisation-current
  *     - pump-running
  *     - roomtherm
  *     - opentherm
  *     - status
  *     - input-buffer
- *     - flow temperature (external sensor)
- *     - return temperature (external sensor)
+ *     - flow, return temperatures (external sensors)
  *
  * todo
  * - implement other messages: VER, CRC, REV, EN
@@ -52,7 +48,7 @@
 #include <SoftwareSerial.h>
 
 #define FW_NAME       "homie-ch"
-#define FW_VERSION    "0.5.5"
+#define FW_VERSION    "0.5.7"
 
 #define DEBUG  0
 
@@ -349,6 +345,7 @@ void processStatus() {
 void requestTemperatures() {
   float  temperature;
 
+  ledOff();
   DS18B20.requestTemperatures();
   if (t1Present) {
     temperature = DS18B20.getTempCByIndex(0);
@@ -360,6 +357,7 @@ void requestTemperatures() {
     temperatureNode.setProperty(t2Name).send(String(temperature));
     Homie.getLogger() << "T2: " << temperature << endl;
   }
+  ledOff();
 }
 
 void setupHandler() {
@@ -468,13 +466,14 @@ void setup() {
 
 void loopHandler() {
   long timeInMillis = millis();
-  if (timeInMillis - lastMsg > scanPeriod) {
-     lastMsg = timeInMillis;
-     requestStatus();
-  }
   if (timeInMillis - lastTMsg > tScanPeriod) {
      lastTMsg = timeInMillis;
      requestTemperatures();
+  }
+  timeInMillis = millis();
+  if (timeInMillis - lastMsg > scanPeriod) {
+     lastMsg = timeInMillis;
+     requestStatus();
   }
   readStatus();
   processStatus();
