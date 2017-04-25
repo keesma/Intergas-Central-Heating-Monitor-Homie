@@ -23,13 +23,15 @@ This is an update of the previous. The functionality is almost the same but the 
   The communication speed is 9600 baud.
 
   The intergas has a 4 pin plug with: Vcc, ground, Tx and Rx.
+  
+  I power my esp8266 with a HiLink 3.3V power supply. With this power supply it is rock solid (previous power supply had reset issues)
 
 * Dependencies
-  - Homie 2.0: [https://github.com/marvinroger/homie-esp8266] (not yet officially released and working well)
+  - Homie 2.0: [https://github.com/marvinroger/homie-esp8266] (not yet officially released and working very well)
   
 * Openhab: I have connected the esp8266 through MQTT to openhab. Openhab can display the data, save it and create nice graphs. The item definitions are included. The rules are required for translating the status bytes to (bit) values.
 
-* Time: the time is no longer synchronised with an NTP server (server (or pool) name can be configured in config.h). Homie has a timer that counts how many seconds it has been running since the last reset.
+* Time: the time is no longer synchronised with an NTP server. Homie has a timer that counts how many seconds it has been running since the last reset.
 
 * Power: My esp8266 has a separate 3.3V power supply. The Intergas may supply power but prefer not the experiment with that (it only supplies power to one of the optocouplers).
 
