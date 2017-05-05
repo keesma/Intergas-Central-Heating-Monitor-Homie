@@ -31,7 +31,7 @@
  * 0.3x 20161230  Converted to Homie v2.0
  * 0.4x 20170103  Added 2 external temperature sensors (flow & return)
  *                Added simulation by other central heating monitor (conditional)
- * 0,5x 20170505  Changed formatting of status codes. Fixed logging. Changed period temperature sensors reading, formatting status-code
+ * 0,5x 20170505  Changed formatting of status codes. Fixed logging. Changed period temperature sensors reading, formatting codes
  */
 
 #include <Homie.h>
@@ -40,7 +40,7 @@
 #include <SoftwareSerial.h>
 
 #define FW_NAME       "homie-ch"
-#define FW_VERSION    "0.5.8"
+#define FW_VERSION    "0.5.11"
 
 #define DEBUG  0
 
@@ -307,7 +307,7 @@ void processStatus() {
       }
       centralHeatingNode.setProperty("io-current").send(ftoa(scratch, getDouble(inputBuffer[23],  inputBuffer[22]), 0));
       pressureNode.setProperty("pressure").send(ftoa(scratch, ch_pressure, 0));
-      sprintf(scratch, "%02x%02x",inputBuffer[26], inputBuffer[28]);
+      sprintf(scratch, "%u",inputBuffer[28]*256+inputBuffer[26]);
       centralHeatingNode.setProperty("status").send(scratch);
       centralHeatingNode.setProperty("opentherm").send((inputBuffer[26] & 0x80) == 0x80 ? "true" : "false");
 
@@ -318,9 +318,9 @@ void processStatus() {
       } else {
          ch_fault_code = 0;
       }
-      sprintf(scratch, "%x", ch_fault_code);
+      sprintf(scratch, "%u", ch_fault_code);
       centralHeatingNode.setProperty("fault-code").send(scratch);
-      sprintf(scratch, "%x", ch_status_code);
+      sprintf(scratch, "%u", ch_status_code);
       centralHeatingNode.setProperty("status-code").send(scratch);
       centralHeatingNode.setProperty("pump-running").send(((inputBuffer[26] & 0x08) == 0x08 ? "true" : "false"));
       if (sendRawData) {
