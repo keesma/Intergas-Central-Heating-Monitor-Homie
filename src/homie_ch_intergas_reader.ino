@@ -8,23 +8,15 @@
  *
  * - settings
  *   -devices/<deviceid>/
- *      - scan-period - how often is status read from Intergas (in seconds)
- *      - send-raw-data - determines whether the raw data is send
+ *      - scan-period      - how often is status read from Intergas (in seconds)
+ *      - temp-scan-period - how often are tempearatures read (in seconds)
+ *      - send-raw-data    - determines whether the raw data is send
  * - sensor data
- *   - devices/igchm/...
- *     - uptime
- *     - t1, t2, t3, t4, t5
- *     - ch-pressure
- *     - temperature-setting
- *     - temperature-flow
- *     - fan-speed, fan-speed-set, fan-pwm
- *     - ionisation-current
- *     - pump-running
- *     - roomtherm
- *     - opentherm
- *     - status
- *     - input-buffer
- *     - flow, return temperatures (external sensors)
+ *   - devices/ichm/...
+ *     - temperature/t1, t2, t3, t4, t5, t1-ext, t2-ext, unit, flow, flow-ext, return-ext, setpoint, T1-address, T2-address
+ *     - pressure/pressure
+ *     - fan/pwm, setpoint, speed, unit
+ *     - heating/io-current, opentherm, pump-running, status, status-code, fault-code
  *
  * todo
  * - implement other messages: VER, CRC, REV, EN
@@ -39,7 +31,7 @@
  * 0.3x 20161230  Converted to Homie v2.0
  * 0.4x 20170103  Added 2 external temperature sensors (flow & return)
  *                Added simulation by other central heating monitor (conditional)
- * 0,5x 20170227  Changed formatting of status codes. Fixed logging. Changed period temperature sensors reading
+ * 0,5x 20170505  Changed formatting of status codes. Fixed logging. Changed period temperature sensors reading, formatting status-code
  */
 
 #include <Homie.h>
@@ -48,7 +40,7 @@
 #include <SoftwareSerial.h>
 
 #define FW_NAME       "homie-ch"
-#define FW_VERSION    "0.5.7"
+#define FW_VERSION    "0.5.8"
 
 #define DEBUG  0
 
@@ -315,7 +307,7 @@ void processStatus() {
       }
       centralHeatingNode.setProperty("io-current").send(ftoa(scratch, getDouble(inputBuffer[23],  inputBuffer[22]), 0));
       pressureNode.setProperty("pressure").send(ftoa(scratch, ch_pressure, 0));
-      sprintf(scratch, "%x%x",inputBuffer[26], inputBuffer[28]);
+      sprintf(scratch, "%02x%02x",inputBuffer[26], inputBuffer[28]);
       centralHeatingNode.setProperty("status").send(scratch);
       centralHeatingNode.setProperty("opentherm").send((inputBuffer[26] & 0x80) == 0x80 ? "true" : "false");
 
