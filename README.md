@@ -9,7 +9,8 @@ This is an update of the previous. The functionality is almost the same but it i
 
 * How to connect the esp8266 to the Intergas (is the same as previous version)
 
-  I have included a diagram how to connect the optocouplers (and a picture of the prototype).
+  I have included a diagram how to connect the optocouplers (and a picture of the prototype):
+  https://github.com/keesma/Intergas-Central-Heating-Monitor-Homie/blob/master/Intergas%20reader%20optocoupler.jpg
 
   To connect the central heating to the esp8266.
   It is best to use an optocoupler to connect the esp8266 to the Intergas.
@@ -24,7 +25,7 @@ This is an update of the previous. The functionality is almost the same but it i
 
   The intergas has a 4 pin plug with: Vcc, ground, Tx and Rx.
   
-  I power my esp8266 with a HiLink 3.3V power supply. With this power supply it is rock solid (previous power supply had reset issues)
+  I power my esp8266 with a HiLink 3.3V power supply. With this power supply it is rock solid (previous power supply had reset issues).
 
 * Dependencies
   - Homie 2.0: [https://github.com/marvinroger/homie-esp8266] (not yet officially released and working very well)
