@@ -1,6 +1,6 @@
 # Intergas Central Heating Monitor for Homie 2.0
 
-This is an update of the previous. The functionality is almost the same but the source is much more simple because of Homie.
+This is an update of the previous. The functionality is almost the same but it is much faster (due to the asynchronous communication) and the source code is much more simple because of Homie.
 
 * This program can read the the status of a Central heating from Intergas.
   It has been built for an esp8266. The central heating status is sent through MQTT to a central system (MQTT broker).
