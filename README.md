@@ -32,6 +32,7 @@ The software is monitoring my Intergas Prestige CW6 without any issues for more 
   - Homie 2.0: [https://github.com/marvinroger/homie-esp8266] (not yet officially released and working very well)
   
 * Openhab: I have connected the esp8266 through MQTT to openhab. Openhab can display the data, save it and create nice graphs. The item definitions are included. The rules are required for translating the status bytes to (bit) values.
+https://github.com/keesma/Intergas-Central-Heating-Monitor-Homie/tree/master/openhab
 
 * Time: the time is no longer synchronised with an NTP server. Homie has a timer that counts how many seconds it has been running since the last reset.
 
