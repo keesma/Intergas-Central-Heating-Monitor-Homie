@@ -1,3 +1,4 @@
+Group TV_Installatie
 String  ch_timestamp    "CV datum-tijd [%s]"    <heating>       (TV_Installatie) { mqtt="<[broker1:chig1/timestamp:state:default]" }
 String  ch_uptime_human "Uptime ch [%s]"        <devices>       (TV_Installatie) 
 Number  ch_uptime       "CV uptime [%d]"        <heating>       (TV_Installatie) { mqtt="<[broker1:devices/ichm/$stats/uptime:state:default]" }
